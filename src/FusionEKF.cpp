@@ -43,13 +43,13 @@ FusionEKF::FusionEKF() {
          1, 1, 1, 1;
 
   //state transition matrix
-  ekf_.F_ = 1, 0, 1, 0,
+  ekf_.F_ << 1, 0, 1, 0,
             0, 1, 0, 1,
             0, 0, 1, 0,
             0, 0, 0, 1;
 
   //covariance matrix
-  ekf_.P_ = 1, 0, 0, 0,
+  ekf_.P_ << 1, 0, 0, 0,
             0, 1, 0, 0,
             0, 0, 1000, 0,
             0, 0, 0, 1000; 
@@ -143,16 +143,16 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     ekf_.R_ = R_radar_;
 
     Tools tools;
-    Hj_ tools.CalculateJacobian(ekf_.x_);
+    Hj_ = tools.CalculateJacobian(ekf_.x_);
     ekf_.H_ = Hj_;
 
-    ekf_.UpdateEKF(measurement_pack.raw_measurements_)
+    ekf_.UpdateEKF(measurement_pack.raw_measurements_);
 
   } else {
     // Laser updates
     ekf_.R_ = R_laser_;
     ekf_.H_ = H_laser_;
-    ekf_.Update(measurement_pack.raw_measurements_)
+    ekf_.Update(measurement_pack.raw_measurements_);
   }
 
   // print the output

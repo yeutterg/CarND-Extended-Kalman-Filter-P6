@@ -42,18 +42,12 @@ void KalmanFilter::Update(const VectorXd &z) {
 void KalmanFilter::UpdateEKF(const VectorXd &z) {
   // Update the state by using Extended Kalman Filter equations
 
-  // Calculate px^2 and py^2
-  float x0_2 = x_(0) * x_(0);
-  float x1_2 = x_(1) * x_(1);
-
   // Get rho, phi, and rho dot
-  float rho = sqrt(x0_2 * x1_2);
+  float rho = sqrt(x_(0) * x_(0) + x_(1) * x_(1));
   float phi = atan2(x_(1), x_(0));
   float rhodot = 0;
   if (rho >= 0.0001 || rho <= -0.0001) {
-    float pxvx = x_(0) * x_(2);
-    float pyvy = x_(1) * x_(3);
-    rhodot = (pxvx + pyvy) / rho;
+    rhodot = (x_(0) * x_(2) + x_(1) * x_(3)) / rho;
   }
 
   // Extended Kalman Filter Equations

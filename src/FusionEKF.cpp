@@ -30,7 +30,7 @@ FusionEKF::FusionEKF() {
 
   //measurement covariance matrix - radar
   R_radar_ << 0.09, 0, 0,
-        0, 0.0009, 0,
+        0, 0.09, 0,
         0, 0, 0.09;
 
   //project 2D to 4D space
